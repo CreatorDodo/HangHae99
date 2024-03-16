@@ -53,6 +53,10 @@ JuniorEngineer.prototype.getIntelligence = function() {
   return this._intelligence;
 };
 
+JuniorEngineer.prototype.isBornGenius = function() {
+  return this._isBornGenius ?? false;
+};
+
 JuniorEngineer.prototype.work = function() {
   Worker.prototype.work.call(this); // Worker의 work 메서드 호출하여 체력 감소
   this._intelligence ++; // 지능 증가
@@ -88,17 +92,20 @@ JuniorEngineer.prototype.work = function() {
  * - V8 엔진의 히든클래스 개념을 이해하고 이 개념을 응용하여 최적화 해보세요.
  * - ES 모듈시스템으로 바꾼뒤, 확장자를 .mjs로 변경한 뒤 실행해보세요. 최적화 결과가 같을까요?
  */
-// function main() {
-//   var startTime = performance.now();
-//   for (var i = 0; i < 10000000; i++) {
-//     new JuniorEngineer(10, Math.floor(Math.random() * 20)).isBornGenius();
-//   }
-//   var endTime = performance.now();
-  
-//   console.log(endTime - startTime);
-// }
+function main() {
+  var startTime = performance.now();
 
-// main();
+  const obj =  new JuniorEngineer(10, Math.floor(Math.random() * 20))
+  
+  for (var i = 0; i < 10000000; i++) {
+    obj.isBornGenius();
+  }
+  var endTime = performance.now();
+  
+  console.log(endTime - startTime);
+}
+
+main();
 
 module.exports = {
   Worker,
