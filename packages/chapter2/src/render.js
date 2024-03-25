@@ -2,7 +2,7 @@ export function jsx(type, props, ...children) {
   return {
     type,
     props,
-    children: children.flat(),
+    children: children.flat()
     // props: {
     //   ...props,
     //   children: children.map(child =>
@@ -42,9 +42,9 @@ export function createElement(node) {
   //   element.appendChild(childElement);
   // });
 
-  Object.entries(props || {})
+  Object.entries(node.props ?? {})
     .filter(([_, value]) => value)
-    .forEach(([key, value]) => $element.setAttribute(key, value));
+    .forEach(([attr, value]) => $element.setAttribute(attr, value));
 
   children.map(createElement).forEach((child) => $element.appendChild(child));
 
@@ -69,9 +69,7 @@ function updateAttributes(target, newProps, oldProps) {
     //     target.setAttribute(key, value);
     //   }
     // }
-    if (oldProps[key] === newProps[key]) {
-      continue;
-    }
+    if (oldProps[key] === newProps[key])  continue;
     target.setAttribute(key, value);
   }
   // oldProps을 반복하여 각 속성 확인
@@ -79,12 +77,11 @@ function updateAttributes(target, newProps, oldProps) {
   //     다음 속성으로 넘어감 (속성 유지 필요)
   //   만약 newProps들에 해당 속성이 존재하지 않는다면
   //     target에서 해당 속성을 제거
-  for (const key of Object.keys(oldProps)) {
-    if (newProps[key] !== undefined) {
-      continue;
-    }
+  for (const attr of Object.keys(oldProps)) {
+    if (newProps[attr] !== undefined) continue;
+    
 
-      target.removeAttribute(key);
+      target.removeAttribute(attr);
     
   }
 }
@@ -94,9 +91,8 @@ export function render(parent, newNode, oldNode, index = 0) {
   // 1. 만약 newNode가 없고 oldNode만 있다면
   //   parent에서 oldNode를 제거
   //   종료
-  if (!newNode && oldNode) {
-    return parent.removeChild(parent.childNodes[index]);
-  }
+  if (!newNode && oldNode)   return parent.removeChild(parent.childNodes[index]);
+  
 
     // 2. 만약 newNode가 있고 oldNode가 없다면
   //   newNode를 생성하여 parent에 추가
@@ -109,9 +105,8 @@ export function render(parent, newNode, oldNode, index = 0) {
   //   oldNode를 newNode로 교체
   //   종료
   if (typeof newNode === 'string' && typeof oldNode === 'string') {
-    if (newNode === oldNode) {
-      return;
-    }
+    if (newNode === oldNode)  return;
+    
 
     return parent.replaceChild(
       createElement(newNode),

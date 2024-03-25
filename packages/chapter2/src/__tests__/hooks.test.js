@@ -78,7 +78,7 @@ describe("hooks test", () => {
       expect(render).toBeCalled(3);
     });
   });
-
+  
   describe("useMemo", () => {
 
     test("useMemo로 만들어진 값은 캐싱된다.", () => {
