@@ -22,27 +22,38 @@ export function createHooks(callback) {
   }
 
   const useState = (initState) => {
-    console.log("useState 처음", currentStateKey, _val);
-    if (_val.length === currentStateKey) {
-      _val.push(initState);
-    }
-    let state = _val[currentStateKey];
+    // console.log("useState 처음", currentStateKey, _val);
+    // if (_val.length === currentStateKey) {
+    //   _val.push(initState);
+    // }
+    // let state = _val[currentStateKey];
 
-const index = currentStateKey;
+    const { current, states } = stateContext;
+    stateContext.current += 1;
+
+    states[current] = states[current] ?? initState;
 
     const setState = (newState) => {
-      console.log("setState 처음", currentStateKey, _val);
-      if (newState === state) return;
-      _val[index] = newState;
-      currentStateKey = 0;
-
+      if (newState === states[current]) return;
+      states[current] = newState;
       callback();
-      console.log("setState 마지막", currentStateKey, _val);
     };
-    currentStateKey += 1;
-    console.log("useState 마지막", currentStateKey, _val, state);
 
-    return [state, setState];
+// const index = currentStateKey;
+
+    // const setState = (newState) => {
+    //   console.log("setState 처음", currentStateKey, _val);
+    //   if (newState === state) return;
+    //   _val[index] = newState;
+    //   currentStateKey = 0;
+
+    //   callback();
+    //   console.log("setState 마지막", currentStateKey, _val);
+    // };
+    // currentStateKey += 1;
+    // console.log("useState 마지막", currentStateKey, _val, state);
+
+    return [states[current], setState];
   };
 
   const useMemo = (fn, refs) => {
